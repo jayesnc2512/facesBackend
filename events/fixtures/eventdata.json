@@ -1,0 +1,53 @@
+[
+    {
+        "model":  "events.Event",
+        "fields":{"day":  1,
+        "start":  "06:00:00.000000",
+        "end":  "07:00:00.000000",
+        "title":  "Event 1",
+        "description":  "Event 1",
+        "is_featured": "True",
+        "whatsapp_link": "new.com",
+        "max_seats":  "10",
+        "image": "backend/events/fixtures/media/images/newimage.png",
+        "category":  "C",
+        "entry_fee":  "1",
+        "prize_money":  "11",
+        "team_size":  "1",
+        "is_team_size_strict":"False"
+    }},
+    {
+        "model":  "events.Event",
+        "fields":{"day":  2,
+        "start":  "06:00:00.000000",
+        "end":  "07:00:00.000000",
+        "title":  "Event 2",
+        "description":  "Event 2",
+        "is_featured": "True",
+        "whatsapp_link": "new1.com",
+        "max_seats":  "10",
+        "image": "backend/events/fixtures/media/images/newimage.png",
+        "category":  "C",
+        "entry_fee":  "1",
+        "prize_money":  "11",
+        "team_size":  "1",
+        "is_team_size_strict":"False"
+    }},
+    {
+        "model":  "events.Event",
+        "fields":{"day":  2,
+        "start":  "06:00:00.000000",
+        "end":  "07:00:00.000000",
+        "title":  "Event 3",
+        "description":  "Event 3",
+        "is_featured": "True",
+        "whatsapp_link": "new1.com",
+        "max_seats":  "10",
+        "image": "backend/events/fixtures/media/images/newimage.png",
+        "category":  "S",
+        "entry_fee":  "1",
+        "prize_money":  "11",
+        "team_size":  "1",
+        "is_team_size_strict":"False"
+    }}
+]
