@@ -182,13 +182,13 @@ class UserCheckout(APIView):
   def post(self, request):
     user = request.user
 
-    def check_criteria(user) -> bool:
-      criteria = json.loads(user.criteria)
-      print(criteria)
-      if criteria['C'] >= 2 and criteria['T'] >= 1:
-        return False
-      else:
-        return True
+    # def check_criteria(user) -> bool:
+    #   criteria = json.loads(user.criteria)
+    #   print(criteria)
+    #   if criteria['C'] >= 2 and criteria['T'] >= 1:
+    #     return False
+    #   else:
+    #     return True
 
 
     participations = request.data['participations']
@@ -196,8 +196,8 @@ class UserCheckout(APIView):
     if len(upi_transaction_id) < 5:
       return JsonResponse({"detail": "Enter a Valid Transaction ID", "success": False},status=400)
 
-    if user.is_from_fcrit and check_criteria(user):
-      return JsonResponse({"detail": "Criteria Not Satisfied! Atleast 2 cultural and 1 technical", "success": False}, status=400)
+    # if user.is_from_fcrit and check_criteria(user):
+    #   return JsonResponse({"detail": "Criteria Not Satisfied! Atleast 2 cultural and 1 technical", "success": False}, status=400)
 
     donation = request.data.get('donation_amount', 0)
     if donation and int(donation) < 0:

@@ -17,11 +17,13 @@ from events.models import Event
 from .managers import UserManager
 
 DEPARTMENTS = (
-  ("COMP", "Computer"),
+  ("Comp A", "Computer A"),
+  ("Comp B", "Computer B"),
   ("IT", "IT"),
   ("EXTC", "EXTC"),
-  ("MECH", "Mechanical"),
-  ("ELEC", "Electrical"),
+  ("Mech A", "Mechanical A"),
+  ("Mech B", "Mechanical B"),
+  ("Elec", "Electrical"),
   ("OTHER", "Other")
 )
 
@@ -44,7 +46,8 @@ class User(AbstractBaseUser, PermissionsMixin):
   is_phone_no_verified = models.BooleanField(_("Is Phone Number Verified"), default=True)
   cart = models.TextField(_("Cart JSON (DONT FILL THIS)"), default="[]")
   is_from_fcrit = models.BooleanField(_("Is From FCRIT"), default=True)
-
+  email_send = models.BooleanField(_("Email Send"), default=False)
+  userpassword = models.TextField(blank=True, null=True)
   money_owed = models.DecimalField(_("Money Owed"),decimal_places=2,max_digits=10, default=0.00)
   has_filled_profile = models.BooleanField(_("Has Filled Profile"), default=True)
   criteria = models.TextField(_("Criteria JSON (DONT FILL THIS)"), default='{"C": 1, "T": 2, "S": 0}')
@@ -112,20 +115,20 @@ def make_user_when_approved(sender, instance, created, **kwargs):
       print(user)
       # user.save()
       # SEND EMAIL HERE
-      send_mail(
-        'FACES 2023 | FCRIT',
-        f"""
-          Etamax Login Details
+      # send_mail(
+      #   'FACES 2023 | FCRIT',
+      #   f"""
+      #     Etamax Login Details
 
-          username: {new_roll_no}
-          password: {pwd}
+      #     username: {new_roll_no}
+      #     password: {pwd}
 
-          Login here: https://faces.fcrit.ac.in/login
-        """,
-        'etamax2023@outlook.com',
-        [instance.email],
-        fail_silently=False,
-      )
+      #     Login here: https://faces.fcrit.ac.in/login
+      #   """,
+      #   'etamax2023@outlook.com',
+      #   [instance.email],
+      #   fail_silently=False,
+      # )
 
 
       # subject = 'FACES 2023 | FCRIT'
