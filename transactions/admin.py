@@ -59,7 +59,7 @@ class DateFilterList(admin.SimpleListFilter):
 class EventAdmin(admin.ModelAdmin):
   list_display = ['transaction_id', 'upi_transaction_id', 'timestamp', 'event_amount', 'total_amount']
   list_filter = ('is_paid','is_verified')
-
+  search_fields = ('user__roll_no',)
   actions = ['export_as_csv']
 
   @admin.action(description="Download Csv")

@@ -50,7 +50,7 @@ class User(AbstractBaseUser, PermissionsMixin):
   userpassword = models.TextField(blank=True, null=True)
   money_owed = models.DecimalField(_("Money Owed"),decimal_places=2,max_digits=10, default=0.00)
   has_filled_profile = models.BooleanField(_("Has Filled Profile"), default=True)
-  criteria = models.TextField(_("Criteria JSON (DONT FILL THIS)"), default='{"C": 1, "T": 2, "S": 0}')
+  criteria = models.TextField(_("Criteria JSON (DONT FILL THIS)"), default='{"C": 0, "T": 0, "S": 0}')
 
   is_staff = models.BooleanField(default=False)
   is_superuser = models.BooleanField(default=False)
@@ -69,6 +69,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 class UserRequest(models.Model):
   email = models.EmailField(_('email address'),unique=True, max_length=254)
   name = models.CharField(_('Name'), max_length=256,blank=False)
+  roll_no = models.IntegerField(_("Roll Number"), blank=True,null=True)
   department = models.CharField(_('Department'),max_length=10,blank=False, choices=DEPARTMENTS)
   semester = models.SmallIntegerField(_("Semester"),blank=False)
   phone_no = models.CharField(_("Phone Number"),blank=False,  max_length=32)
@@ -92,21 +93,22 @@ def make_user_when_approved(sender, instance, created, **kwargs):
     if User.objects.filter(email=instance.email).exists():
       return
 
-    u = [1]
-    while len(u) > 0:
-      new_roll_no = make_roll_no()
-      u = User.objects.filter(roll_no=new_roll_no)
+    # u = [1]
+    # while len(u) > 0:
+    #   new_roll_no = make_roll_no()
+    #   u = User.objects.filter(roll_no=new_roll_no)
 
     try:
       pwd = make_password()
       print(pwd)
       user = User(
-        roll_no=new_roll_no,
+        roll_no=instance.roll_no,
         email=instance.email,
         name=instance.name,
         department=instance.department,
         semester=instance.semester,
         phone_no=instance.phone_no,
+        userpassword=pwd,
         is_phone_no_verified=True,
         has_filled_profile=True,
         is_from_fcrit=False,
@@ -143,13 +145,13 @@ def make_user_when_approved(sender, instance, created, **kwargs):
       # to_email = instance.email
       # send_email = EmailMessage(subject, message, to=[to_email])
       # send_email.send()
-      import csv 
+      # import csv 
      
-      rows = [ user.name, user.roll_no,user.email,pwd,user.phone_no,user.department,user.semester] 
-      f = open('/Users/Mathew/Desktop/faces.csv', 'a')  
-      writer = csv.writer(f)
-      writer.writerow(rows)
-      f.close()
+      # rows = [ user.name, user.roll_no,user.email,pwd,user.phone_no,user.department,user.semester] 
+      # f = open('/Users/Mathew/Desktop/faces.csv', 'a')  
+      # writer = csv.writer(f)
+      # writer.writerow(rows)
+      # f.close()
       user.save()
     except Exception as e:
       print(f"Error creating User: {instance.email}#{new_roll_no}")
@@ -160,6 +162,8 @@ class Participation(models.Model):
   part_id = models.CharField(_("Participation Id"), default=uuid4,max_length=36, unique=True, primary_key=True)
   team_name = models.CharField(_("Team Name"), max_length=256,blank=False)
   event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name="participations")
+  captain = models.ForeignKey(User, on_delete=models.SET_NULL, related_name="captain", null=True, blank=True)
+  captain_paid = models.BooleanField("captain paid", default=False)
   members = models.ManyToManyField(User, related_name='participations')
   transaction = models.ForeignKey(Transaction, on_delete=models.SET_NULL, related_name="participations", null=True, blank=True)
   is_verified = models.BooleanField(_("Is Verified"), default=False)

@@ -51,20 +51,18 @@ class UserAdmin(admin.ModelAdmin):
         for user in queryset:
             password = user.password
             print(password)
-            subject = "Your User Credentials"
+            subject = "Your User Credentials || FACES 2023"
             message = format_html(
                 "Dear {},<br><br>"
                 "Here are your login credentials:<br>"
                 "User ID: {}<br>"
                 "Password: {}<br><br>"
-                "You can log in <a href='{}'>here</a>.<br><br>"
                 "Best regards,<br>Students Council",
                 user.name,
                 user.roll_no,
                 user.userpassword,
-                "faces.fcrit.ac.in",  # Change this URL to the login page URL
             )
-            from_email = "etamax2023@outlook.com"  # Change this to your email address
+            from_email = "faces@fcrit.ac.in"  # Change this to your email address
             recipient_list = [user.email]
 
             try:
@@ -168,7 +166,7 @@ class ExcelDataAdmin(admin.ModelAdmin):
                         #     phone_no=row['phone no'],
                         #     roll_no=row['Roll No']
                         # )
-                        pwd = make_password()
+                        pwd = row['password']
                         print(pwd)
                         user = User(
                             roll_no=row['Roll No'],
@@ -177,7 +175,7 @@ class ExcelDataAdmin(admin.ModelAdmin):
                             department=row['Department'],
                             semester=row['Semester'],
                             phone_no=row['Phone No'],
-                            userpassword = pwd,
+                            userpassword = row['password'],
                             is_phone_no_verified=True,
                             has_filled_profile=True,
                             is_from_fcrit=True,

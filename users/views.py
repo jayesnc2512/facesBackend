@@ -209,8 +209,32 @@ class UserCheckout(APIView):
 
     for p in participations:
       part_q = user.participations.filter(part_id=p)
+      # ans = Participation.objects.get(part_id=p)
       _p = part_q.first()
-      event_amount += _p.event.entry_fee
+      print(_p)
+      print("ondia is my")
+      # print(_p.event.captain_paid)
+      print(_p.event.team_size)
+      print("ondia is my")
+      if _p.event.team_size == 1:
+          event_amount += _p.event.entry_fee
+      else:
+        # print("ijbfijebwejb")
+        # print(_p.captain_paid)
+        # if _p.captain_paid is True:
+        #   _p.captain_paid = False
+        #   _p.save()
+        #   event_amount += _p.event.entry_fee
+        if _p.captain ==user:
+          # _p.captain_paid = False
+          # _p.save()
+          event_amount += _p.event.entry_fee
+
+      # if _p.event.team_size > 1 and _p.event.captain_paid is False:
+      #     event_amount += _p.event.entry_fee
+      #     _p.event.captain_paid = True
+      #     _p.event.save()
+      print(event_amount)
       p_objs.append(_p)
 
       if not part_q:

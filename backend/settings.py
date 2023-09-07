@@ -12,6 +12,10 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 from pathlib import Path
 import os
+import environ
+
+env = environ.Env()
+environ.Env.read_env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -21,7 +25,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-nc8%5lucm--y429wjc*gm2=wxg(r!tao**j4%sx@r8n=t6g*qz'
+SECRET_KEY = env("DJANGO_SECRET_KEY")
 
 #OTP_VERIFY_SECRET = os.getenv("OTP_VERIFY_SECRET", "0879f1a7575cb723141c8f6bb6e25d1dc64e0c56")
 OTP_VERIFY_SECRET = "BRUH"
@@ -210,8 +214,8 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'SMTP.outlook.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'etamax2023@outlook.com'
-EMAIL_HOST_PASSWORD = "etamax23"
+EMAIL_HOST_USER = env("EMAILHOST_USER")
+EMAIL_HOST_PASSWORD = env("EMAILHOST_PASSWORD")
 
 
 # MATOR SETTINGS

@@ -14,7 +14,7 @@ class Event(models.Model):
   )
   CATEGORIES = (
     ("C","Cultural"),
-    ("T", "Technical"),
+    ("T", "Seminar"),
     ("S", "Sports"),
   )
 
@@ -28,7 +28,8 @@ class Event(models.Model):
   is_featured = models.BooleanField("Is Featured", default=False)
   is_fcrit_only = models.BooleanField("Is Event only for FCRIT Students", default=False)
   whatsapp_link = models.URLField(_("Whatsapp Link"), blank=True, null=True)
-  image = models.ImageField(_("Event Banner"), upload_to="uploads/")
+  image_google_link = models.URLField(_("Google drive"), blank=True, null=True)
+  image = models.ImageField(_("Event Banner"), upload_to="uploads/",blank=True, null=True)
   seats = models.IntegerField(_("Event Seats(0 at start)"),blank=False,default=0)
   max_seats = models.IntegerField(_("Maximum Event Seats"),blank=False,default=0)
   category = models.CharField(_("Category"), choices=CATEGORIES, max_length=1, blank=False)

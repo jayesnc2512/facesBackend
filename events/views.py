@@ -146,13 +146,14 @@ class EventRegiterView(APIView):
     else:
       # Event is Team Event
       
-      team_name = request.data['team_name'][0]
-      members_str = request.data["members"]
-      print(type(user.roll_no))
-      print(type(members_str))
-      print(members_str)
-      members = json.loads(members_str)
-      print(type(members))
+      team_name = request.data['team_name']
+      members = request.data["members"]
+      # members_str = request.data["members"]
+      # print(type(user.roll_no))
+      # print(type(members_str))
+      # print(members_str)
+      # members = json.loads(members_str)
+      # print(type(members))
 
       if user.roll_no not in members:
          members.append(user.roll_no)
@@ -164,6 +165,7 @@ class EventRegiterView(APIView):
       p = Participation()
       p.event = event
       p.team_name = team_name
+      p.captain = user
       p.save()
 
       
@@ -233,7 +235,7 @@ class EventUnregister(APIView):
     part = participations.first()
     # print(part.transaction)
     if part.transaction:
-      return JsonResponse({"detail": "You have Already Paid for the Event", "success": False}, status=400)
+      return JsonResponse({"detail": "Cannot Unregistered!You have Already Checked Out for the Event!", "success": False}, status=400)
 
     members = part.members.all()
     event = part.event
